@@ -1,0 +1,20 @@
+const express = require("express");
+const router = express.Router();
+const pool = require("../db/postgres");
+
+router.post("/login", async (req, res) => {
+  const { login, password } = req.body;
+
+  const result = await pool.query(
+    "SELECT * FROM users WHERE login=$1 AND password=$2",
+    [login, password]
+  );
+
+  if (result.rows.length > 0) {
+    res.json({ success: true });
+  } else {
+    res.json({ success: false });
+  }
+});
+
+module.exports = router;
