@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Liste des services</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Liste des services</h1>
+
+<table id="servicesTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nom du service</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+async function loadServices() {
+  try {
+    let res = await fetch("http://localhost:3000/services");
+    let services = await res.json();
+    const tbody = document.querySelector("#servicesTable tbody");
+    tbody.innerHTML = services.map(s => `<tr><td>${s.id}</td><td>${s.nom_service}</td></tr>`).join("");
+  } catch(err) {
+    console.error(err);
+    alert("Impossible de récupérer les services.");
+  }
+}
+
+loadServices();
+</script>
+
+</body>
+</html>
